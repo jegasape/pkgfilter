@@ -2,26 +2,22 @@ package main
 
 import "fmt"
 
-type PackageTypes int
-
-const (
-	TCP PackageTypes = iota
-	UPD
-	ICMP
-	HTTP
-	HTTPS
-	SSH
-)
-
-type Package struct {
-	Type PackageTypes
+type Ordered interface {
+	~int | ~int8 | ~int16 | ~int32 | ~int64 |
+		~uint | ~uint8 | ~uint16 | ~uint32 | ~uint64 |
+		~float32 | ~float64 | ~string
 }
 
-func (p Package) String() string {
-	return [...]string{"TCP", "UPD", "ICMP", "HTTP", "HTTPS", "SSH"}[p.Type]
+func Max[T Ordered](a, b T) T {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 func main() {
-	pkg := Package{Type: SSH}
-	fmt.Println(pkg)
+	fmt.Println(Max(10, 20))
+	fmt.Println(Max(3.14, 2.71))
+	fmt.Println(Max("go", "golang"))
 }
+
